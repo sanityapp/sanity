@@ -1,0 +1,27 @@
+{
+  "name": "sanity",
+  "version": "0.0.1",
+  "description": "sanity ======",
+  "main": "server.js",
+  "dependencies": {
+    "async": "~0.9.0",
+    "ejs": "~1.0.0",
+    "express": "~4.8.8",
+    "express.io": "~1.1.13"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/sanityapp/sanity.git"
+  },
+  "author": "Alastair McFarlane",
+  "license": "MIT License",
+  "bugs": {
+    "url": "https://github.com/sanityapp/sanity/issues"
+  },
+  "homepage": "https://github.com/sanityapp/sanity"
+}
