@@ -2,46 +2,41 @@ FORMAT: 1A
 HOST: http://www.google.com
 
 # sanityapp
-Notes API is a *short texts saving* service similar to its physical paper presence on your table.
-
-# Group Notes
-Notes related resources of the **Notes API**
-
-## Notes Collection [/notes]
-### List all Notes [GET]
+Sanity provides an API to control the attached scanner
+/api/preview
+/api/scanimage
+/api/completed
+## Preview [/api/preview]
+### Generate a new low-resolution preview [GET]
 + Response 200 (application/json)
 
         [{
-          "id": 1, "title": "Jogging in park"
-        }, {
-          "id": 2, "title": "Pick-up posters from post-office"
+          "response": "ok"
         }]
 
-### Create a Note [POST]
-+ Request (application/json)
-
-        { "title": "Buy cheese and bread for breakfast." }
-
-+ Response 201 (application/json)
-
-        { "id": 3, "title": "Buy cheese and bread for breakfast." }
-
-## Note [/notes/{id}]
-A single Note object with all its details
+## Scan Image [/api/scanimage?filename={filename}]
 
 + Parameters
-    + id (required, number, `1`) ... Numeric `id` of the Note to perform action with. Has example value.
-
-### Retrieve a Note [GET]
+    + filename (required, string, `important_scan.png`) ... Name of the file to scan, including file type extension.
+    
+### Generate a new scan [GET]
 + Response 200 (application/json)
 
-    + Header
+        [{
+          "response": "<file name>"
+        }]
 
-            X-My-Header: The Value
+## Completed scans [/api/completed(?id={id})]
 
-    + Body
++ Parameters
+    + id (optional, id, `1`) ... Numeric `id` of the scan to download. If not specified, returns the list of completed scans available.
 
-            { "id": 2, "title": "Pick-up posters from post-office" }
+### List completed scans [GET]
++ Response 200 (application/json)
 
-### Remove a Note [DELETE]
-+ Response 204
+    ["important_scan","less_important_scan"]
+
+### Download completed scan [GET]
++ Response 200 (image/<type>)
+
+    The file as a binary blob.
