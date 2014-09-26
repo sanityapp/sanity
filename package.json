@@ -10,12 +10,15 @@
     "express.io": "~1.1.13",
     "chai": "~1.9.1",
     "mocha": "~1.21.4",
-    "mocha-lcov-reporter": "~0.0.1"
+    "mocha-lcov-reporter": "~0.0.1",
+    "codeclimate-test-reporter": "~0.0.4"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "npm run test-node",
+    "test": "npm run test-node && npm run test-coverage && npm run update-coverage",
     "test-node":"mocha -R spec ./test/server.test.js",
+    "test-coverage":"mocha -R mocha-lcov-reporter ./test/server.test.js > coverage.lcov",
+    "update-coverage":"CODECLIMATE_REPO_TOKEN=df306c1f531613f14195732ec4b0ff6bc6c4f5eff79dd502098ba984c121e4de codeclimate < coverage.lcov",
     "start": "node server.js"
   },
   "repository": {
