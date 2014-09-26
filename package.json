@@ -9,7 +9,8 @@
     "express": "~4.8.8",
     "express.io": "~1.1.13",
     "chai": "~1.9.1",
-    "mocha": "~1.21.4"
+    "mocha": "~1.21.4",
+    "mocha-lcov-reporter": "~0.0.1"
   },
   "devDependencies": {},
   "scripts": {
