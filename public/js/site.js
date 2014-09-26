@@ -11,9 +11,9 @@ $(document).ready(function(){
       newScan: function() {
         console.log("newScan");
         $.ajax(
-          '/api/scanimage?filename='
-            +window.model.filename
-            +window.model.filetype, 
+          '/api/scanimage?filename=' +
+            window.model.filename +
+            window.model.filetype, 
           {success: function(data,status) {
               window.model.showAlert("Scan queued");
             }
@@ -42,7 +42,7 @@ $(document).ready(function(){
           $("#alert"+alertCount).alert('close');
         }, 5000);
       }
-    }
+    };
     $.each(data.scans, function(i,d) {window.model.scans.push(d);});
     console.log(window.model);
     ko.applyBindings(window.model);
@@ -50,7 +50,7 @@ $(document).ready(function(){
     socket.emit('ready'); // Listen for the talk event.
     socket.on('updated',
       function(data) {
-        var scans = data.scans
+        var scans = data.scans;
         console.log(scans);
         $.each(scans, function(i,d) {
           console.log(d);
