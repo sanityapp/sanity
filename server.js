@@ -4,7 +4,7 @@ app.http().io();
 var exec = require('child_process').exec,
     child;
 var async = require('async');
-var ejs = require('ejs');
+var path = require('path');
 var fs = require('fs');
 var scannedPrefix = __dirname + '/scanned/';
 var completedImages = [];
