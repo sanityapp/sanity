@@ -12,7 +12,7 @@ Sanity provides an API to control the attached scanner
           "response": "ok"
         }]
 
-## Scan Image [/api/scanimage?filename={filename}]
+## Scan Image [/api/scanimage{?filename}=filename]
 
 + Parameters
     + filename (required, string, `important_scan.png`) ... Name of the file to scan, including file type extension.
@@ -24,7 +24,7 @@ Sanity provides an API to control the attached scanner
           "response": "<file name>"
         }]
 
-## Completed scans [/api/completed{?id=id}]
+## Completed scans [/api/completed{?id}=id]
 
 + Parameters
     + id (optional, id, `1`) ... Numeric `id` of the scan to download. If not specified, returns the list of completed scans available.
