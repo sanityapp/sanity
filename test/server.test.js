@@ -7,12 +7,8 @@ describe('Sanity server', function () {
 
   var server = require('../server.js');
 
-  it('works', function () {
-    true.should.equal(true);
-  });
-
-  it('still works', function () {
-    false.should.not.equal(true);
+  it('should broadcast updates on scan completion', function () {
+    true.should.equal(false, "Not implemented");
   });
 
 });
