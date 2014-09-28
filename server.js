@@ -42,12 +42,16 @@ var processImage = function(err, stats) {
   if(stats.isFile() && files[i].indexOf(".png") !== -1) {
     completedImages.push(path.basename(files[i]));
   }
-}
+};
 
 var readExistingScans = function () {
   fs.readdir(scannedPrefix, function (err, files) {
     for (var i = 0; i < files.length; i++) {
-      fs.stat(files[i], processImage);
+      fs.stat(files[i], function (err, stats) {
+        if (stats.isFile() && files[i].indexOf(".png") !== -1) {
+          completedImages.push(path.basename(files[i]));
+        }
+      });
     }
   });
 };
