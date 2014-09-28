@@ -33,19 +33,21 @@ var scanimage = function (job, callback) {
     res = job.res;
   console.log('BEGIN: Scan ' + filename);
   child = exec('scanimage --resolution ' + res + ' | convert - ' + scannedPrefix + filename + ' 2>' + scannedPrefix + filename + '.txt');
-  child.on('exit', function (code, signal) {
+  child.on('exit', function () {
     callback(filename);
   });
 };
 
+var processImage = function(err, stats) {
+  if(stats.isFile() && files[i].indexOf(".png") !== -1) {
+    completedImages.push(path.basename(files[i]));
+  }
+}
+
 var readExistingScans = function () {
   fs.readdir(scannedPrefix, function (err, files) {
     for (var i = 0; i < files.length; i++) {
-      fs.stat(files[i],function(err,stats) {
-        if(stats.isFile() && files[i].indexOf(".png") !== -1) {
-            completedImages.push(path.basename(files[i]));
-        }
-      });
+      fs.stat(files[i], processImage);
     }
   });
 };
@@ -57,7 +59,7 @@ queue.drain = function() {
   console.log('All scans completed!');
 };
 
-app.get('/api/preview', function (req, res) {
+app.get('/api/preview', function () {
   queue.push({'filename':'preview.png','res':75}, function(file) {
     completed(file,'preview');
   });
@@ -98,6 +100,8 @@ app.get('/web', function (req, res) {
   res.render('index2', { title: 'The index page!' });
 });
 
-app.io.on('connection',function(s) { console.log("connected");});
+app.io.on('connection',function() { console.log("connected");});
 
 app.listen(3000);
+
+readExistingScans();
