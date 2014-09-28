@@ -1,3 +1,4 @@
+"use strict";
 var express = require('express.io');
 var app = express();
 app.http().io();
@@ -17,6 +18,9 @@ app.use('/scans', express.static(scannedPrefix));
 // TODO: Tidy up scannedPrefix appending
 // TODO: Sanitise input against quotes,slashes in filename
 
+var getFile = function(file) {
+  return scannedPrefix + file;
+}
 
 var completed = function (file, type) {
   var completed = {"filename": file};
@@ -32,30 +36,36 @@ var scanimage = function (job, callback) {
   var filename = job.filename,
     res = job.res;
   console.log('BEGIN: Scan ' + filename);
-  child = exec('scanimage --resolution ' + res + ' | convert - ' + scannedPrefix + filename + ' 2>' + scannedPrefix + filename + '.txt');
+  child = exec('scanimage --resolution ' + res + ' | convert - ' + getFile(filename) + ' 2>' + getFile(filename + '.txt'));
   child.on('exit', function () {
     callback(filename);
   });
 };
 
-var processImage = function(err, stats) {
-  if(stats.isFile() && files[i].indexOf(".png") !== -1) {
-    completedImages.push(path.basename(files[i]));
-  }
-};
-
 var readExistingScans = function () {
   fs.readdir(scannedPrefix, function (err, files) {
     for (var i = 0; i < files.length; i++) {
-      fs.stat(files[i], function (err, stats) {
-        if (stats.isFile() && files[i].indexOf(".png") !== -1) {
-          completedImages.push(path.basename(files[i]));
+      var filePath = getFile(files[i]);
+      fs.stat(filePath, function (err, stats) {
+        console.log(filePath);
+        if (stats.isFile() && filePath.indexOf(".png") !== -1) {
+          completed(path.basename(files[i-1]),"scan");
         }
       });
     }
   });
 };
 
+var bootServer = function() {
+  fs.mkdir(scannedPrefix, "0744", function(err) {
+    if (err) {
+      if (err.code !== 'EEXIST') {
+        process.exit(1);
+      }
+    }
+  });
+  readExistingScans();
+};
 
 var queue = async.queue(scanimage,1);
 
@@ -80,10 +90,10 @@ app.get('/api/scanimage', function (req, res) {
 app.get('/api/completed', function (req, res) {
   var id = req.param('id');
   if(id === null || typeof(id) === "undefined") {
-      res.send(completedImages);
+    res.send(completedImages);
   }
   else {
-      res.download(scannedPrefix + completedImages[id]);
+    res.download(getFile(completedImages[id]));
   }
 });
 
@@ -100,12 +110,13 @@ app.io.route('ready', function(req) {
   req.io.emit('updated',{scans:completedImages});
 });
 
-app.get('/web', function (req, res) {
-  res.render('index2', { title: 'The index page!' });
+app.get('/', function (req, res) {
+  res.render('index', { title: 'The index page!' });
 });
 
 app.io.on('connection',function() { console.log("connected");});
 
+bootServer();
+
 app.listen(3000);
 
-readExistingScans();
