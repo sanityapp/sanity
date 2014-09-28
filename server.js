@@ -2,7 +2,7 @@ var express = require('express.io');
 var app = express();
 app.http().io();
 var exec = require('child_process').exec,
-    child;
+  child;
 var async = require('async');
 var path = require('path');
 var fs = require('fs');
@@ -18,29 +18,29 @@ app.use('/scans', express.static(scannedPrefix));
 // TODO: Sanitise input against quotes,slashes in filename
 
 
-var completed = function(file,type) {
-  var completed = {"filename":file};
-  if(type !== 'preview') {
-      completedImages.push(completed);
+var completed = function (file, type) {
+  var completed = {"filename": file};
+  if (type !== 'preview') {
+    completedImages.push(completed);
   }
   console.log('SEND: ' + type + 'Complete');
-  app.io.broadcast(type+'Complete',completed);
-  app.io.broadcast('updated',{scans:completedImages});
+  app.io.broadcast(type + 'Complete', completed);
+  app.io.broadcast('updated', {scans: completedImages});
 };
 
-var scanimage = function(job,callback) {
+var scanimage = function (job, callback) {
   var filename = job.filename,
-      res = job.res;
+    res = job.res;
   console.log('BEGIN: Scan ' + filename);
-  child = exec('scanimage --resolution '+res+' | convert - '+scannedPrefix+filename + ' 2>'+scannedPrefix+filename+'.txt');
-  child.on('exit',function(code,signal) {
+  child = exec('scanimage --resolution ' + res + ' | convert - ' + scannedPrefix + filename + ' 2>' + scannedPrefix + filename + '.txt');
+  child.on('exit', function (code, signal) {
     callback(filename);
   });
 };
 
-var readExistingScans = function() {
-  fs.readdir(scannedPrefix, function(err,files) {
-    for(var i = 0; i < files.length; i++) {
+var readExistingScans = function () {
+  fs.readdir(scannedPrefix, function (err, files) {
+    for (var i = 0; i < files.length; i++) {
       fs.stat(files[i],function(err,stats) {
         if(stats.isFile() && files[i].indexOf(".png") !== -1) {
             completedImages.push(path.basename(files[i]));
