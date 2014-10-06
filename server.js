@@ -64,7 +64,7 @@ app.sanityLib = {
   }
 };
 
-var scanner = require('__dirname/server/scanner')(app);
+var scanner = require(__dirname + '/server/scanner')(app);
 
 var scanImage = function (job, callback) {
   console.log('BEGIN: Scan ' + job.filename);
@@ -85,7 +85,7 @@ var readExistingScans = function () {
   });
 };
 
-require("./server/api")(app);
+require(__dirname + '/server/api.js')(app);
 
 app.io.route('ready', function(req) {
   //req.join('scans');
