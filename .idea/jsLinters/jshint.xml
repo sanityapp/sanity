@@ -18,6 +18,7 @@
     <option unused="true" />
     <option strict="true" />
     <option trailing="false" />
+    <option indent="2" />
     <option asi="false" />
     <option boss="false" />
     <option debug="false" />
@@ -49,7 +50,7 @@
     <option dojo="false" />
     <option jquery="false" />
     <option mootools="false" />
-    <option node="false" />
+    <option node="true" />
     <option nonstandard="false" />
     <option prototypejs="false" />
     <option rhino="false" />

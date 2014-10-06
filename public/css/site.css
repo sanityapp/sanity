@@ -2,3 +2,8 @@
   display: inline;
   float: right;
 }
+
+.app-imagepreview img {
+  width: 100%;
+  height: 100%;
+}
