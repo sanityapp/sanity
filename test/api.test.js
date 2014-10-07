@@ -1,10 +1,10 @@
-describe('Sanity server', function () {
+describe('Sanity API', function () {
   'use strict';
 
   var chai = require('chai');
   chai.should();
 
-  var server = require('../server');
+  var api = require('../server/api');
 
   it('should broadcast updates on scan completion', function () {
     true.should.equal(false, "Not implemented");

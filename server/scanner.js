@@ -1,14 +1,16 @@
-module.exports = function(app) {
+module.exports = function() {
+
+  var sanity = require('./sanity');
 
   return {
-    scanImage: function(filename, options, callback) {
+    scanImage: function(job, callback) {
       var exec = require('child_process').exec,
           child;
-      child = exec('scanimage --resolution ' + options.res + ' | convert - ' + app.sanityLib.translateFile(filename) + ' 2>' + app.sanityLib.translateFile(filename + '.txt'));
+      child = exec('scanimage --resolution ' + job.res + ' | convert - ' + sanity.translateFile(job.filename) + ' 2>' + sanity.translateFile(job.filename + '.txt'));
       child.on('exit', function () {
-        callback(filename);
+        callback(job.filename);
       });
     }
   };
 
-};
+}();
