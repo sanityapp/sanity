@@ -31,7 +31,7 @@ module.exports = function() {
       return completedImages;
     },
     getCompletedImage: function(i) {
-      return completedImages[i];
+      return this.getCompletedImages()[i];
     },
     removeCompletedImage: function(i) {
       var filename = completedImages.splice(i);
@@ -42,13 +42,13 @@ module.exports = function() {
       return scannedPrefix + filename;
     },
     loadExistingScans: function() {
+      var self = this;
       fs.readdir(scannedPrefix, function (err, files) {
         for (var i = 0; i < files.length; i++) {
-          var filePath = this.translateFile(files[i]);
+          var filePath = self.translateFile(files[i]);
           fs.stat(filePath, function (err, stats) {
-            console.log(filePath);
             if (stats.isFile() && filePath.indexOf(".png") !== -1) {
-              this.scanCompleted(path.basename(files[i-1]),"scan");
+              self.scanCompleted(path.basename(files[i-1]),"scan");
             }
           });
         }

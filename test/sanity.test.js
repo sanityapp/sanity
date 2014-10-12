@@ -38,5 +38,29 @@ describe('Sanity library', function () {
     queue.push.called.should.equal(true, "job was not pushed to queue");
 
   });
+  
+  it('should maintain a list of completed images', function () {
+
+    var sanity = require('../server/sanity');
+
+    var images = sanity.getCompletedImages();
+
+    images.should.be.a('array', "expected list was not returned");
+
+  });
+  
+  
+  it('should return a specific completed image', function () {
+
+    var sanity = require('../server/sanity');
+    var completedImage = "testImage"
+    
+    var getterStub = sinon.stub(sanity, 'getCompletedImages').returns([completedImage]);
+
+    var image = sanity.getCompletedImage(0);
+
+    image.should.equal(completedImage, "expected list was not returned");
+
+  });
 
 });
