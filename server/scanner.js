@@ -1,4 +1,4 @@
-module.exports = function() {
+module.exports = (function() {
 
   var sanity = require('./sanity');
 
@@ -13,4 +13,4 @@ module.exports = function() {
     }
   };
 
-}();
+}());

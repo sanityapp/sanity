@@ -1,4 +1,4 @@
-module.exports = function() {
+module.exports = (function() {
 
   var async = require('async');
   var scanner = require('./scanner');
@@ -15,8 +15,8 @@ module.exports = function() {
   };
 
   var isSupportedFile = function(filePath) {
-    return /(.png|.jpg)$/.test(filePath);
-  }
+    return (/(.png|.jpg)$/).test(filePath);
+  };
 
   var processFileStats = function(filePath,callback) {
     return function(err,stats) {
@@ -83,4 +83,4 @@ module.exports = function() {
     }
   };
 
-}();
+}());
