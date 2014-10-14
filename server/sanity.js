@@ -48,7 +48,7 @@ module.exports = function() {
           var filePath = self.translateFile(files[i]);
           fs.stat(filePath, function (err, stats) {
             if (stats.isFile() && filePath.indexOf(".png") !== -1) {
-              self.scanCompleted(path.basename(files[i-1]),"scan");
+              self.scanCompleted(path.basename(filePath),"scan");
             }
           });
         }
