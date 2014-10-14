@@ -6,6 +6,7 @@ $(document).ready(function(){
     showScan:function(data) {
       console.log("SHOW");
       console.log(data);
+      window.model.updateFlatbed(data.filename);
     },
     downloadScan:function(data) {
       console.log("DOWNLOAD");
@@ -14,10 +15,20 @@ $(document).ready(function(){
     deleteScan:function(data) {
       console.log("DELETE");
       console.log(data);
+      var self = window.model;
+      if(confirm("confirm delete")) {
+        $.ajax(
+          '/api/remove?name='+data.filename,
+          {success: function(data,status) {
+              self.showAlert("Image " + data.filename + " deleted");
+            }
+          }
+        );
+      }
     },
     newScan: function() {
       console.log("newScan");
-      var self = this;
+      var self = window.model;
       $.ajax(
         '/api/scanimage?filename=' +
           window.model.filename +
@@ -30,7 +41,7 @@ $(document).ready(function(){
     },
     preview: function() {
       console.log("preview");
-      var self = this;
+      var self = window.model;
       $.ajax(
         '/api/preview',
         {success: function(data,status) {
@@ -44,8 +55,8 @@ $(document).ready(function(){
       $("<img/>",{src:"/scans/"+filename}).appendTo(".app-imagepreview");
     },
     showAlert: function(text) {
-      var alertCount = $("alerts").children().length;
-      $("#alerts").append('<div id="alert'+alertCount+'" class="alert alert-info fade in" role="alert">'+text+'</div>');
+      var alertCount = $(".app-alerts").children().length;
+      $(".app-alerts").append('<div id="alert'+alertCount+'" class="alert alert-info fade in" role="alert">'+text+'</div>');
       //$("#alert"+alertCount).alert();
       setTimeout(function() {
         $("#alert"+alertCount).alert('close');
@@ -61,6 +72,7 @@ $(document).ready(function(){
     function(data) {
       var scans = data.scans;
       console.log(scans);
+      window.model.scans.removeAll();
       $.each(scans, function(i,d) {
         console.log(d);
         window.model.scans.push(d);

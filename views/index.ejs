@@ -15,7 +15,7 @@ TODO: Add download/close icons on list items using glyphs
 TODO: Add checkboxes to list items and download selected at bottom
 -->
 <div class="container-fluid">
-  <div id="alerts" class=""></div>
+  <div class="app-alerts alert-container"></div>
   <div class="row">
     <div class="col-md-4">
       <img src="http://placehold.it/315x150"/>
@@ -26,7 +26,7 @@ TODO: Add checkboxes to list items and download selected at bottom
   </div>
   <div class="row">
     <div class="col-md-4 col-md-offset-4" style="background-color:#ff33ff; height:500px;">
-        <span class="app-imagepreview"><img src="http://placehold.it/350x150"/></span>
+        <span class="app-imagepreview preview-container"><img src="http://placehold.it/350x150"/></span>
     </div>
     <div class="col-md-4">
       <div class="list-group" data-bind="if: scans().length == 0">
@@ -40,9 +40,9 @@ TODO: Add checkboxes to list items and download selected at bottom
           <div class="list-group" data-bind="foreach: scans">
             <a class="list-group-item" data-bind="click: $parent.showScan">
             <span data-bind="text: filename"></span>
-            <div class="app-itemcontrols" style="margin-left:auto">
-              <span class="glyphicon glyphicon-floppy-disk" data-bind="click: $parent.downloadScan"></span>
-              <span class="glyphicon glyphicon-trash" data-bind="click: $parent.deleteScan"></span>
+            <div class="app-itemcontrols item-control-container" style="margin-left:auto">
+              <span class="glyphicon glyphicon-floppy-disk" data-bind="click: $parent.downloadScan, clickBubble: false"</span>
+              <span class="glyphicon glyphicon-trash" data-bind="click: $parent.deleteScan, clickBubble: false"></span>
               <!-- TODO: Events are bubbling -->
             </div>
             </a>

@@ -1,15 +1,15 @@
 module.exports = function(app){
-
+  var sanity = require('./sanity');
   app.get('/api/preview', function () {
-    app.sanityLib.queueJob({'filename':'preview.png','res':75}, function(file) {
-      app.sanityLib.scanCompleted(file,'preview');
+    sanity.queueJob({'filename':'preview.png','res':75}, function(file) {
+      sanity.scanCompleted(file,'preview');
     });
   });
 
   app.get('/api/scanimage', function (req, res) {
     var filename = req.param('filename');
-    app.sanityLib.queueJob({'filename':filename,res:300},function(file) {
-      app.sanityLib.scanCompleted(file,'scan');
+    sanity.queueJob({'filename':filename,res:300},function(file) {
+      sanity.scanCompleted(file,'scan');
     });
     res.send('Queued: ' + filename);
   });
@@ -17,16 +17,16 @@ module.exports = function(app){
   app.get('/api/completed', function (req, res) {
     var id = req.param('id');
     if(id === null || typeof(id) === "undefined") {
-      res.send(app.sanityLib.getCompletedImages());
+      res.send(sanity.getCompletedImages());
     }
     else {
-      res.download(app.sanityLib.translateFile(app.sanityLib.getCompletedImage(id)));
+      res.download(sanity.translateFile(sanity.getCompletedImage(id)));
     }
   });
 
   app.get('/api/remove', function(req,res) {
-    var id = req.param('id');
-    var filename = app.sanityLib.removeCompletedImage(id);
+    var name = req.param('name');
+    var filename = sanity.removeCompletedImage({name: name});
     res.send('Removed item '+ filename);
   });
 

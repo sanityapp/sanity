@@ -1,0 +1,38 @@
+$(document).ready(function(){
+  $.getJSON("static/sampledata.json", function(data) {
+    console.log(data);
+    window.model = {
+      "scans":ko.observableArray(),
+      showScan:function(data) {
+        console.log(data);
+      },
+      newScan: function() {
+        couuuu
+      },
+      preview: function() {
+        console.log("preview");
+      }
+    }
+    $.each(data.scans, function(i,d) {window.model.scans.push(d);});
+    console.log(window.model);
+    ko.applyBindings(window.model);
+    var socket = io.connect(); // Emit ready event.
+    socket.emit('ready'); // Listen for the talk event.
+    socket.on('updated',
+      function(data) {
+        var scans = data.scans
+        console.log(scans);
+        $.each(scans, function(i,d) {
+          console.log(d);
+          window.model.scans.push(d);
+        });
+      });
+    });
+    socket.on('completed',
+      function(data) {
+        console.log('completed');
+        var image = data.filename;
+        //TODO: update preview
+      }
+    );
+});
