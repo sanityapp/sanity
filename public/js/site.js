@@ -7,10 +7,12 @@ $(document).ready(function(){
       console.log("SHOW");
       console.log(data);
       window.model.updateFlatbed(data.filename);
+      //TODO: set "active" class on list item
     },
     downloadScan:function(data) {
       console.log("DOWNLOAD");
       console.log(data);
+      window.location.href = "/api/completed?name=" + data.filename; 
     },
     deleteScan:function(data) {
       console.log("DELETE");

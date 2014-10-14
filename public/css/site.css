@@ -3,6 +3,14 @@
   float: right;
 }
 
+.item-control.glyphicon:hover {
+  color: black;
+}
+
+.item-control {
+  cursor: pointer;
+}
+
 .preview-container img {
   width: 100%;
   height: 100%;

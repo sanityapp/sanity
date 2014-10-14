@@ -32,8 +32,8 @@ module.exports = function() {
     app.io.broadcast('updated', {scans: completedImages});
   };
 
-  var translateFile = function(filename) { 
-    return scannedPrefix + filename;
+  var translateFile = function(filename,public) { 
+    return path.resolve((public ? "scans/" : scannedPrefix) + filename);
   };
 
   return {
@@ -56,7 +56,7 @@ module.exports = function() {
       return completedImages;
     },
     getCompletedImage: function(index) {
-      return this.getCompletedImages()[i];
+      return this.getCompletedImages()[index];
     },
     removeCompletedImage: function(locator) {
       var i = locator.name;
@@ -69,8 +69,8 @@ module.exports = function() {
       broadcastUpdate();
       return filename;
     },
-    translateFile: function (filename) {
-      return translateFile(filename);
+    translateFile: function (filename,public) {
+      return translateFile(filename,public);
     },
     loadExistingScans: function() {
       var self = this;

@@ -15,12 +15,12 @@ module.exports = function(app){
   });
 
   app.get('/api/completed', function (req, res) {
-    var id = req.param('id');
-    if(id === null || typeof(id) === "undefined") {
+    var name = req.param('name');
+    if(name === null || typeof(name) === "undefined") {
       res.send(sanity.getCompletedImages());
     }
     else {
-      res.download(sanity.translateFile(sanity.getCompletedImage(id)));
+      res.download(sanity.translateFile(sanity.getCompletedImage(name).filename));
     }
   });
 
