@@ -24,6 +24,7 @@ var bootServer = function(app,port) {
   });
   sanity.loadExistingScans();
   app.listen(port);
+  console.log("Serve listening on port " + port);
 };
 
 require('./server/api')(app);
