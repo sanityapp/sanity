@@ -17,22 +17,24 @@ $(document).ready(function(){
     },
     newScan: function() {
       console.log("newScan");
+      var self = this;
       $.ajax(
         '/api/scanimage?filename=' +
           window.model.filename +
           window.model.filetype,
         {success: function(data,status) {
-            window.model.showAlert("Scan queued");
+            self.showAlert("Scan queued");
           }
         }
       );
     },
     preview: function() {
       console.log("preview");
+      var self = this;
       $.ajax(
         '/api/preview',
         {success: function(data,status) {
-            window.model.showAlert("Preview queued");
+            self.showAlert("Preview queued");
           }
         }
       );
