@@ -4,9 +4,13 @@
 <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js"></script>
 <script src="static/js/bootstrap.min.js"></script>
+<script src="static/bootstrap-material-design/dist/js/material.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
+<script src="static/js/models/scan.js"></script>
 <script src="static/js/site.js"></script>
 <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="static/bootstrap-material-design/dist/css/material.min.css"/>
+<link rel="stylesheet" type="text/css" href="static/bootstrap-material-design/dist/css/material-wfont.min.css"/>
 <link rel="stylesheet" type="text/css" href="static/css/site.css"/>
 </head>
 <body>
@@ -20,15 +24,14 @@ TODO: Add checkboxes to list items and download selected at bottom
     <div class="col-md-4">
       <img src="http://placehold.it/315x150"/>
     </div>
-    <div class="col-md-4 col-md-offset-4">
-        <h3>Saved scans</h3>
-    </div>
   </div>
   <div class="row">
-    <div class="col-md-4 col-md-offset-4" style="background-color:#ff33ff; height:500px;">
-        <span class="app-imagepreview preview-container"><img src="http://placehold.it/350x150"/></span>
+    <div class="col-md-3 col-md-offset-4 well" >
+        <span class="app-imagepreview preview-container">
+            <img src="http://placehold.it/219x301"/>
+        </span>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
       <div class="list-group" data-bind="if: scans().length == 0">
         <div class="list-group">
             <a class="list-group-item">
@@ -36,15 +39,43 @@ TODO: Add checkboxes to list items and download selected at bottom
             </a>
         </div>
       </div>
-      <div class="list-group" data-bind="if: scans().length > 0">
-          <div class="list-group" data-bind="foreach: scans">
-            <a class="list-group-item item-control" data-bind="click: $parent.showScan, clickBubble: false">
-            <span data-bind="text: filename"></span>
-            <div class="app-itemcontrols item-control-container" style="margin-left:auto">
-              <span class="item-control glyphicon glyphicon-floppy-disk" data-bind="click: $parent.downloadScan, clickBubble: false"></span>
-              <span class="item-control glyphicon glyphicon-trash" data-bind="click: $parent.deleteScan, clickBubble: false"></span>
+      <div data-bind="if: scans().length > 0">
+          <div class="list-group">
+            <div class="list-group-item list-group-header">
+              <div class="row-action-primary checkbox" ">
+                  <label>
+                      <input class="bs-material" type="checkbox" data-bind="checked: allSelected"></input>
+                      <span class="check" data-bind="click: toggleSelectAll, clickBubble: false"></span>
+                  </label>
+              </div>
+              <div class="row-content">
+                  <h4 class="list-group-item-heading">All scans</h4>
+              </div>
+              <div class="row-action-secondary">
+              </div>
             </div>
+            <div class="list-group-separator"></div>
+          <!-- ko foreach : scans -->
+            <a class="list-group-item" data-bind="click: $parent.showScan, clickBubble: false">
+                <div class="row-action-primary checkbox" data-bind="clickBubble: false">
+                    <label>
+                        <input class="bs-material" type="checkbox" data-bind="checked: multiSelected"></input>
+                        <span class="check" data-bind="click: toggleMultiSelected, clickBubble: false"></span>
+                    </label>
+                </div>
+                <div class="row-content">
+                    <h4 class="list-group-item-heading" data-bind="text: filename"></h4>
+                    <p class="list-group-item-text" data-bind="text: filename"></p>
+                </div>
+                <div class="row-action-secondary"  data-bind="clickBubble: false">
+                    <div class="item-control-container item-control-container-right" style="margin-left:auto">
+                        <i class="item-control icon-material-file-download" data-bind="click: $parent.downloadScan, clickBubble: false"></i>
+                        <i class="item-control icon-material-delete" data-bind="click: $parent.deleteScan, clickBubble: false"></i>
+                    </div>
+                </div>
             </a>
+            <div class="list-group-separator"></div>
+          <!-- /ko -->
           </div>
       </div>
     </div>

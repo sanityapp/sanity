@@ -3,20 +3,30 @@ $(document).ready(function(){
     "scans":ko.observableArray(),
     "filename":"",
     "filetype":"png",
+    allSelected:ko.computed({read:function() {
+        return ko.utils.arrayFirst(window.model.scans(), function(item) {
+          return !item.multiSelected();
+        }) === null;
+      },
+      deferEvaluation: true
+    }),
+    toggleSelectAll:function() {
+      var on = window.model.allSelected();
+      ko.utils.arrayForEach(window.model.scans(), function(item) {
+        item.toggleMultiSelected(!on);
+      });
+    },
     showScan:function(data) {
       console.log("SHOW");
-      console.log(data);
       window.model.updateFlatbed(data.filename);
       //TODO: set "active" class on list item
     },
     downloadScan:function(data) {
       console.log("DOWNLOAD");
-      console.log(data);
       window.location.href = "/api/completed?name=" + data.filename; 
     },
     deleteScan:function(data) {
       console.log("DELETE");
-      console.log(data);
       var self = window.model;
       if(confirm("confirm delete")) {
         $.ajax(
@@ -65,19 +75,16 @@ $(document).ready(function(){
       }, 5000);
     }
   };
-
-  console.log(window.model);
   ko.applyBindings(window.model);
   var socket = io.connect(); // Emit ready event.
   socket.emit('ready'); // Listen for the talk event.
   socket.on('updated',
     function(data) {
       var scans = data.scans;
-      console.log(scans);
       window.model.scans.removeAll();
       $.each(scans, function(i,d) {
         console.log(d);
-        window.model.scans.push(d);
+        window.model.scans.push(new Scan(d));
       });
     });
   socket.on('scanComplete',

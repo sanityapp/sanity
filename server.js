@@ -10,6 +10,7 @@ var oneDay = 86400000;
 app.set('view engine', 'ejs');
 app.use(express.compress());
 app.use('/static', express.static(__dirname + '/public'), { maxAge: oneDay });
+app.use('/static', express.static(__dirname + '/bower_components'), { maxAge: oneDay });
 app.use('/scans', express.static(scannedPrefix));
 
 // TODO: Sanitise input against quotes,slashes in filename

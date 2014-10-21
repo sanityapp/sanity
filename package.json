@@ -14,8 +14,9 @@
     "mocha": "~1.21.x",
     "istanbul": "~0.3.x",
     "codeclimate-test-reporter": "~0.0.x",
-    "sinon": "^1.10.3",
-    "proxyquire": "^1.0.1"
+    "sinon": "^1.10.x",
+    "proxyquire": "^1.0.x",
+    "grunt": "^0.4.x"
   },
   "scripts": {
     "test": "mocha -R spec ./test/*.test.js",

@@ -1,0 +1,24 @@
+{
+  "name": "Sanity",
+  "version": "0.0.0",
+  "homepage": "https://github.com/sanityapp/sanity",
+  "authors": [
+    "Alastair McFarlane <alastair@alastairmcfarlane.co.uk>"
+  ],
+  "main": "server.js",
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-material-design": "~0.1.1"
+  }
+}
